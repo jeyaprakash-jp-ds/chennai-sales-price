@@ -62,12 +62,22 @@ int_features = {
 
 df_input = pd.DataFrame(int_features)
 
-# Ensure encoder expects the same columns
+# Debugging feature names
 expected_features = encoder.feature_names_in_
+model_expected_features = model.get_booster().feature_names
+
+st.write("Expected features for encoder:", expected_features)
+st.write("Expected features for model:", model_expected_features)
+
+# Ensure encoder expects the same columns
 if not all(col in df_input.columns for col in expected_features):
     st.error("Feature mismatch! Ensure correct feature names.")
 else:
     df_input[expected_features] = encoder.transform(df_input[expected_features])
+
+# Ensure correct column order and types
+df_input = df_input[model_expected_features]
+df_input = df_input.astype(float)
 
 # Predict
 if st.button("Predict Price 💰"):
