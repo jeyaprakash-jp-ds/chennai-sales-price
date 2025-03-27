@@ -27,16 +27,16 @@ def set_bg():
     )
 set_bg()
 
-# Define the Streamlit UI
-st.title("🏡 Chennai House Price Prediction")
-st.write("Enter property details to predict the sales price.")
-
-# Encoding mappings (Ensure categorical data is properly mapped)
+# Define categorical mappings (ensure consistency with model training)
 area_mapping = {"Anna Nagar": 0, "Karapakkam": 1, "Adyar": 2, "Velachery": 3, "Chrompet": 4, "KK Nagar": 5, "T Nagar": 6}
 build_type_mapping = {"Commercial": 0, "House": 1, "Others": 2}
 street_mapping = {"Paved": 0, "Gravel": 1, "No Access": 2}
 utility_mapping = {"AllPub": 0, "No sewage": 1, "ELO": 2}
 sale_cond_mapping = {"Normal Sale": 0, "AbNormal": 1, "AdjLand": 2, "Partial": 3}
+
+# Define the Streamlit UI
+st.title("🏡 Chennai House Price Prediction")
+st.write("Enter property details to predict the sales price.")
 
 # User input fields
 area = st.selectbox("Select Area", list(area_mapping.keys()))
