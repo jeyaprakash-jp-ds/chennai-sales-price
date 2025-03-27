@@ -1,1 +1,1 @@
-
+this project is about predicting the price of the property for the mentioned locations in chennai.This prediction is done using machine learning and the algorithm used is XGBregressor. It has also been deployed in the Streamlit for interactive application.
