@@ -62,8 +62,12 @@ int_features = {
 
 df_input = pd.DataFrame(int_features)
 
-# Encode categorical variables
-df_input[["AREA", "BUILDTYPE", "STREET", "UTILITY_AVAIL", "SALE_COND"]] = encoder.transform(df_input[["AREA", "BUILDTYPE", "STREET", "UTILITY_AVAIL", "SALE_COND"]])
+# Ensure encoder expects the same columns
+expected_features = encoder.feature_names_in_
+if not all(col in df_input.columns for col in expected_features):
+    st.error("Feature mismatch! Ensure correct feature names.")
+else:
+    df_input[expected_features] = encoder.transform(df_input[expected_features])
 
 # Predict
 if st.button("Predict Price 💰"):
