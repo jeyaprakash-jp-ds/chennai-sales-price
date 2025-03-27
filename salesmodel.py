@@ -68,14 +68,20 @@ model_expected_features = model.get_booster().feature_names
 
 st.write("Expected features for encoder:", expected_features)
 st.write("Expected features for model:", model_expected_features)
+st.write("Current input features:", df_input.columns.tolist())
 
 # Ensure encoder expects the same columns
-if not all(col in df_input.columns for col in expected_features):
-    st.error("Feature mismatch! Ensure correct feature names.")
+missing_features = [col for col in expected_features if col not in df_input.columns]
+if missing_features:
+    st.error(f"Missing features for encoding: {missing_features}")
 else:
     df_input[expected_features] = encoder.transform(df_input[expected_features])
 
 # Ensure correct column order and types
+for feature in model_expected_features:
+    if feature not in df_input.columns:
+        df_input[feature] = 0  # Fill missing columns with default values
+
 df_input = df_input[model_expected_features]
 df_input = df_input.astype(float)
 
