@@ -68,13 +68,16 @@ int_features = {
 
 df_input = pd.DataFrame(int_features)
 
-# Encode categorical variables
+# Encode categorical variables with error handling
 for col in ["AREA", "BUILDTYPE", "STREET", "UTILITY_AVAIL", "SALE_COND"]:
-    df_input[col] = df_input[col].apply(lambda x: encoder.transform([x])[0])
+    try:
+        df_input[col] = df_input[col].apply(lambda x: encoder.transform([x])[0] if x in encoder.classes_ else 0)
+    except ValueError:
+        df_input[col] = 0  # Assign default encoding for unseen values
 
 # Ensure correct column order
 model_features = model.get_booster().feature_names
-df_input = df_input[model_features]
+df_input = df_input.reindex(columns=model_features, fill_value=0)
 
 df_input = df_input.astype(float)
 
